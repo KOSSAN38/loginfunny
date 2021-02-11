@@ -11,11 +11,21 @@ router.post('/', function (req, res, next) {
 
   console.log(req.body);
 
-  const usename = req.body.username;
+  const username = req.body.username;
   const password = req.body.password;
 
   if (password == "dinmamma") {
-    res.send('hihihihihi');
+    req.session.loggedin = true;
+    req.session.username = username;
+    res.redirect('/topsekuritas');
+
+  } else {
+
+    res.render('/login',
+      {
+        title: 'busfed',
+        error: 'Det blev fel!'
+      });
   }
 
 });
