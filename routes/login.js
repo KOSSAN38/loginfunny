@@ -21,7 +21,7 @@ router.get('/kryptan/:pwd', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', async function (req, res, next) {
 
   console.log(req.body);
 
@@ -29,20 +29,32 @@ router.post('/', function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (password == "dinmamma") {
-    req.session.loggedin = true;
-    req.session.username = username;
-    res.redirect('/topsekuritas');
 
-  } else {
 
-    res.render('/login',
-      {
-        title: 'busfed',
-        error: 'Det blev fel!'
-      });
+  if (username && password) {
+    try {
+      const sql = 'SELECT password FROM users WHERE name = ?'
+      const result = await query(sql, username, password);
+
+      if (result.length > 0) {
+        bcrypt.compare(password, result[0].password, function (err, result) {
+          if (result == true) {
+            req.session.loggedin = true;
+            req.session.username = username;
+            res.redirect('/topsekuritas');
+          } else {
+            res.render('login', { error: 'Det blev fel!' });
+          }
+          res.json({
+            result
+          })
+        });
+      }
+    } catch (e) {
+      next(e);
+      console.error(e);
+    }
   }
-
 });
 
 module.exports = router;
