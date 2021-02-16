@@ -2,12 +2,19 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { query } = require('../models/db');
+const { body, validationResult } = require('express-validator');
+
+
+
+
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   // res.send('respond with a resource');
   res.render('login', { title: 'Buzzfed' })
 });
+
+
 
 router.get('/kryptan/:pwd', function (req, res, next) {
 
@@ -21,17 +28,28 @@ router.get('/kryptan/:pwd', function (req, res, next) {
   });
 });
 
-router.post('/', async function (req, res, next) {
-
-  console.log(req.body);
-
-
-  const username = req.body.username;
-  const password = req.body.password;
 
 
 
-  if (username && password) {
+router.post('/',
+  body('username').notEmpty().trim(),
+  body('password').notEmpty(),
+  async function (req, res, next) {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    console.log(req.body);
+
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+
+
+
     try {
       const sql = 'SELECT password FROM users WHERE name = ?'
       const result = await query(sql, username, password);
@@ -55,6 +73,6 @@ router.post('/', async function (req, res, next) {
       console.error(e);
     }
   }
-});
+);
 
 module.exports = router;
