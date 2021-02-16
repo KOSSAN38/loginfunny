@@ -38,7 +38,7 @@ router.post('/',
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.render('login', { errors: errors.array() });
+      return res.render('login', { errors: errors.array() });
     }
 
     console.log(req.body);
@@ -61,10 +61,9 @@ router.post('/',
           } else {
             res.render('login', { errors: 'Det blev fel!' });
           }
-          res.json({
-            result
-          })
         });
+      } else {
+        res.render('login', { errors: 'Det blev fel!' });
       }
     } catch (e) {
       next(e);
