@@ -5,7 +5,9 @@ block content
   p Welcome to #{title}
 
   if error 
-    p = error
+    each error in errors 
+      p= error.param
+      p= error.msg
 
   form(action="/login", method="post")
     div 

@@ -38,7 +38,7 @@ router.post('/',
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      res.render('login', { errors: errors.array() });
     }
 
     console.log(req.body);
@@ -48,11 +48,9 @@ router.post('/',
     const password = req.body.password;
 
 
-
-
     try {
-      const sql = 'SELECT password FROM users WHERE name = ?'
-      const result = await query(sql, username, password);
+      const sql = 'SELECT password FROM users WHERE name = ?';
+      const result = await query(sql, username);
 
       if (result.length > 0) {
         bcrypt.compare(password, result[0].password, function (err, result) {
@@ -61,7 +59,7 @@ router.post('/',
             req.session.username = username;
             res.redirect('/topsekuritas');
           } else {
-            res.render('login', { error: 'Det blev fel!' });
+            res.render('login', { errors: 'Det blev fel!' });
           }
           res.json({
             result
@@ -70,9 +68,8 @@ router.post('/',
       }
     } catch (e) {
       next(e);
-      console.error(e);
+      console.errors(e);
     }
-  }
-);
+  });
 
 module.exports = router;
