@@ -59,11 +59,11 @@ router.post('/',
             req.session.username = username;
             res.redirect('/topsekuritas');
           } else {
-            res.render('login', { errors: 'Det blev fel!' });
+            res.render('login', { errors: 'Username or password is invalid' });
           }
         });
       } else {
-        res.render('login', { errors: 'Det blev fel!' });
+        res.render('login', { errors: 'Username or password is invalid' });
       }
     } catch (e) {
       next(e);
