@@ -3,16 +3,13 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const { query } = require('../models/db');
 const { body, validationResult } = require('express-validator');
-
+const authcontroller = require('../controllers/authcontroller');
 
 
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  // res.send('respond with a resource');
-  res.render('login', { title: 'Buzzfed' })
-});
+router.get('/', authcontroller.show);
 
 
 
@@ -34,41 +31,7 @@ router.get('/kryptan/:pwd', function (req, res, next) {
 router.post('/',
   body('username').notEmpty().trim(),
   body('password').notEmpty(),
-  async function (req, res, next) {
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.render('login', { errors: errors.array() });
-    }
-
-    console.log(req.body);
-
-
-    const username = req.body.username;
-    const password = req.body.password;
-
-
-    try {
-      const sql = 'SELECT password FROM users WHERE name = ?';
-      const result = await query(sql, username);
-
-      if (result.length > 0) {
-        bcrypt.compare(password, result[0].password, function (err, result) {
-          if (result == true) {
-            req.session.loggedin = true;
-            req.session.username = username;
-            res.redirect('/home');
-          } else {
-            res.render('login', { errors: 'Username or password is invalid' });
-          }
-        });
-      } else {
-        res.render('login', { errors: 'Username or password is invalid' });
-      }
-    } catch (e) {
-      next(e);
-      console.errors(e);
-    }
-  });
+  authcontroller.store
+);
 
 module.exports = router;
