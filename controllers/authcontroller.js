@@ -42,5 +42,15 @@ module.exports.store = async function (req, res, next) {
         next(e);
         console.errors(e);
     }
+};
 
+
+
+
+module.exports.destroy = async function (req, res, next) {
+
+    //logga ut
+    req.session.loggedin = false;
+    req.session.destroy()
+    return res.redirect('/')
 };
