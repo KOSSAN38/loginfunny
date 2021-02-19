@@ -57,7 +57,7 @@ router.post('/',
           if (result == true) {
             req.session.loggedin = true;
             req.session.username = username;
-            res.redirect('/topsekuritas');
+            res.redirect('/home');
           } else {
             res.render('login', { errors: 'Username or password is invalid' });
           }
