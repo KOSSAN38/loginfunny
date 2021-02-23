@@ -10,3 +10,5 @@ router.get('/', function (req, res, next) {
 router.post('/logout', authcontroller.destroy);
 
 module.exports = router;
+
+
