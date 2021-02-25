@@ -1,9 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const { body, validationResult } = require('express-validator');
+const registercontroller = require('../controllers/registercontroller');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+/* GET da login */
+router.get('/', registercontroller.show);
+
+/*post da login*/
+
+router.post('/',
+
+  body('username').notEmpty().trim().toLowerCase(),
+  body('email').notEmpty().isEmail().trim().toLowerCase(),
+  body('password').notEmpty(),
+  body('passwordconfirmed').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('ditt lösenord stämmer inte överens!');
+    }
+    return true;
+  }),
+  registercontroller.store
+);
 
 module.exports = router;
