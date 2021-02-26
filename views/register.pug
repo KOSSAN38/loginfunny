@@ -19,10 +19,8 @@ block content
       label(for='password') Password
       input(type='password', id='password', name='password')
     div
-      label(for='confirm_password') Confirm Password
-      input(type='password', id='confirm_password', name='confirmPassword')
-    div
-      input(type='hidden', name='_csrf', value=csrfToken)
+      label(for='confirmpassword') Confirm Password
+      input(type='password', id='confirmpassword', name='confirmpassword')
 
     if registerFormExtraParams
       each value, key in registerFormExtraParams

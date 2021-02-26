@@ -7,15 +7,15 @@ module.exports.show = async function (req, res, next) {
     if (req.session.loggedin) {
         return res.redirect('/home');
     }
-    return res.render('register', { title: 'registrera' });
+    return res.render('register', { title: 'Registrera Dig till BUzzfed' });
 };
 
 module.exports.store = async function (req, res, next) {
-
+    console.table(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.status(400).render('register', { errors: error.array() });
+        return res.status(400).render('register', { errors: errors.array() });
     }
 
     const username = req.body.username;
@@ -27,6 +27,7 @@ module.exports.store = async function (req, res, next) {
         try {
             const sql = 'INSERT INTO users (name, email, password, created_at, updated_at)VALUES (?, now(), now())';
             const result = await query(sql, [username, email, hash]);
+
             if (result.insertId > 0) {
                 res.render('login', { username: username });
             }
@@ -45,7 +46,7 @@ module.exports.destroy = async function (req, res, next) {
     }
 };
 
-module.exports.upsate = async (req, res, next) => {
+module.exports.update = async (req, res, next) => {
     const id = req.params.id;
     if (id == req.session.userid) {
         const sql = 'UPDATE users SET name =? WHERE id = ?';

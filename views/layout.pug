@@ -2,6 +2,79 @@ doctype html
 html
   head
     title= title
+    link#bootstrap-css(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css' rel='stylesheet')
+    script(src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js')
+    script(src='//code.jquery.com/jquery-1.11.1.min.js')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+  body 
+  // ---- Include the above in your HEAD tag --------
+.navbar
+  .navbar-inner
+    .container
+      a.btn.btn-navbar(data-toggle='collapse' data-target='.nav-collapse')
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.brand(href='#') Welcom to Buzzfed
+      .nav-collapse
+        ul.nav
+          li.active
+            a(href='/home') Home
+          li.active
+            a(href='/login') Login
+          li.active
+            a(href='/register') Register
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown')
+              | Dropdown 
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Action
+              li
+                a(href='#') Another action
+              li
+                a(href='#') Something else here
+              li.divider
+              li.nav-header Nav header
+              li
+                a(href='#') Separated link
+              li
+                a(href='#') One more separated link
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown')
+              | Dropdown 
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Action
+              li
+                a(href='#') Another action
+              li
+                a(href='#') Something else here
+              li.divider
+              li.nav-header Nav header
+              li
+                a(href='#') Separated link
+              li
+                a(href='#') One more separated link
+        ul.nav.pull-right
+          li.divider-vertical
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown')
+              | Dropdown 
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Action
+              li
+                a(href='#') Another action
+              li
+                a(href='#') Something else here
+              li.divider
+              li
+                a(href='#') Separated link
+      // /.nav-collapse
+      // /navbar-inner
+
     block content

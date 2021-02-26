@@ -13,7 +13,7 @@ router.post('/',
   body('username').notEmpty().trim().toLowerCase(),
   body('email').notEmpty().isEmail().trim().toLowerCase(),
   body('password').notEmpty(),
-  body('passwordconfirmed').custom((value, { req }) => {
+  body('confirmpassword').custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error('ditt lösenord stämmer inte överens!');
     }
