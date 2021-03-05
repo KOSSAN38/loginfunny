@@ -16,10 +16,8 @@ module.exports.store = async function (req, res, next) {
 
     console.log(req.body);
 
-
     const username = req.body.username;
     const password = req.body.password;
-
 
     try {
         const sql = 'SELECT password FROM users WHERE name = ?';
